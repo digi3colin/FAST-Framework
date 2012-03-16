@@ -1,83 +1,71 @@
 ﻿package com.fastframework.utils {
+	import com.fastframework.core.SingletonError;
+	import flash.utils.Dictionary;
+
 
 	/**
 	 * @author colin
 	 */
 	final public class Queue {
-		private static var insArray:Array;
+		private static var insArray:Dictionary;
+		private var commands:Array;
 
-		private var requestArray:Array;
-		private var needRemoveFirstRequest : Boolean=false;
-		
 		public static function instance(queueId:int=0):Queue{
-			insArray ||= [];
-			insArray[queueId] ||=new Queue(new SingletonBlocker());
-			return insArray[queueId];
+			insArray ||= new Dictionary();
+			return insArray[queueId] || new Queue(queueId);
 		}
 	
 		public static function clearAll():void{
-			for(var i:Number = 0;i<insArray.length;i++){
-				Queue(insArray[i]).clear();
+			for each(var q:Queue in insArray){
+				q.clear();
 			}
 		}
 	
-		public function Queue(p_key:SingletonBlocker){
-			requestArray = new Array();
-			p_key;
-		}
-	
-		public function next():Number {
-			if(needRemoveFirstRequest==true){
-				remove(0);
-				needRemoveFirstRequest = false;
-			}
+		public function Queue(queueId:int=0){
+			if( insArray[queueId] != null ) throw new SingletonError(insArray[queueId]);
+			insArray[queueId] = this;
 
-			if(requestArray[0]!=null){
-				requestArray[0]();
-				remove(0);
-			}
-			return requestArray.length;
+			commands = new Array();
 		}
-	
-		public function addRequest(request:Function):Number{
+
+		public function addCommand(command:ICommand):int{
+
 			//if the queue is empty, do the request immediately.
 			//the item must remove by next();
-			if (requestArray.length==0){
-				needRemoveFirstRequest = true;
-				request();
+			commands.push(command);
+			if(commands.length==1){
+				command.execute();
 			}
-		 	return requestArray.push(request);
+		 	return commands.length;
 		}
-	
+
+		public function addNextCommand(command:ICommand):void{
+			if(commands.length==0){
+				commands.push(command);
+				command.execute();
+				return;
+			}
+		 	commands.splice(1,0,command);
+		}
+
+		public function next():Number {
+			commands[0]=null;
+			commands.shift();
+			if(commands.length>0)ICommand(commands[0]).execute();
+			return commands.length;
+		}
+
+		public function remove(index:int):void{
+			commands.splice(index,1);
+		}
+
 		public function clear():void{
 		 	//clears the array, so no more loading will be started.
-		 	requestArray = new Array();
+		 	commands = new Array();
 		}
 	
-		public function addNextRequest(request:Function):void{
-			if(requestArray.length==0){request();}
-		 	requestArray.splice(0,0,request);
-		}
-	
-		public function remove(index:Number):void{
-			requestArray.splice(index,1);
-		}
-	
-		public function getIndexByReference(request:Function):Number{
-			var i:Number;
-			for (i=0;i<requestArray.length;i++){
-				if (requestArray[i] === request)return i;
-			}
-			return -1;
-		}
-	
-		public function getItemAt(index:Number):Function{
-			return requestArray[index];
-		}
-	
-		public function getLength():Number{
-			return requestArray.length;
+		public function getLength():int{
+			return commands.length;
 		}
 	}
 }
-class SingletonBlocker {}

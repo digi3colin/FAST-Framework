@@ -1,9 +1,9 @@
 ﻿package {
-	import com.fastframework.error.SingletonError;
-
+	import com.fastframework.core.SingletonError;
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
+
 
 	/**
 	 * @author colin
@@ -11,13 +11,14 @@
 	final public class AS2 {
 		private static var ins:AS2;
 		public static function instance():AS2 {
-			ins ||=new AS2(new SingletonBlocker());
-			return ins;
+			return ins || new AS2();
 		}
 
 		private var _roots:Array;
-		public function AS2(p_key:SingletonBlocker) {
-			if(p_key==null)throw new SingletonError(this);
+
+		public function AS2() {
+			if(ins!=null){throw new SingletonError(this);}
+			ins = this;
 			_roots = [];
 		}
 		
@@ -38,5 +39,3 @@
 		}
 	}
 }
-
-internal class SingletonBlocker {}

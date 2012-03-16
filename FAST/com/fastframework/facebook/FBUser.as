@@ -1,9 +1,9 @@
 package com.fastframework.facebook {
-	import com.fastframework.event.EventDispatcherUtils;
+	import com.fastframework.core.EventDispatcherUtils;
 	import com.fastframework.utils.StringUtils;
-
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+
 
 	/**
 	 * @author colin
@@ -35,7 +35,7 @@ package com.fastframework.facebook {
 		}
 				
 		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.when(this,eventType,whichObject,callFunction);
+			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);
 			return this;
 		}
 		

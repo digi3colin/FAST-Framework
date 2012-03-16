@@ -1,10 +1,10 @@
 ﻿package com.fastframework.view {
-	import com.fastframework.navigation.Navigation;
-	import com.fastframework.navigation.NavigationEvent;
+	import com.fastframework.core.navigation.Navigation;
+	import com.fastframework.core.navigation.NavigationEvent;
 	import com.fastframework.view.events.ButtonClipEvent;
-
 	import flash.display.SimpleButton;
 	import flash.events.Event;
+
 
 	/**
 	 * @author Colin
@@ -26,18 +26,20 @@
 
 			nav = Navigation.instance().when(NavigationEvent.CHANGE,this,highlightButton);
 		}
-	
+
 		private function click(e:ButtonClipEvent):void{
 			var nav:Navigation = Navigation.instance();
 			nav.clearNavStackRequests();
 			nav.changeSection(navKey, targetContainer, false, base.getBase());
 		}
 
-		public function highlightButton(e:NavigationEvent):void{
+		private function highlightButton(e:NavigationEvent):void{
 			highlightButtonByNavKey(e.navKey);
 		}
-		
+
 		public function highlightButtonByNavKey(nav_key:String):void{
+			if(nav_key==null)return;
+
 			for(var i:int=0;i<nav_key.split("_").length;i++){
 				if(this.navKey==nav_key.split("_",i+1).join("_")){
 					base.isHighlight = true;

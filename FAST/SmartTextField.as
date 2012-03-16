@@ -1,14 +1,18 @@
-package {
-	import com.fastframework.event.EventDispatcherUtils;
-
+﻿package {
+	import com.fastframework.core.EventDispatcherUtils;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
 	import flash.text.TextField;
 
+
 	/**
 	 * @author colin
+	 */
+	 
+	 /*
+	  * 
 var reEmail:RegExp = new RegExp("^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}$","i");
 var txf:SmartTextField = new SmartTextField(txt);
 txf.setValidateFunction(function(str:String):Boolean{return reEmail.test(str)});
@@ -25,7 +29,8 @@ function valid(e:Event):void{
 function invalid(e:Event):void{
 	trace(txt.text+' is invalid,'+txf.invalidMsg);
 }
-	 */
+	  * 
+	  */
 	public class SmartTextField extends EventDispatcher implements IFASTEventDispatcher{
 		private var _validateFunction:Function;
 		private var _submitFunction:Function;
@@ -55,6 +60,17 @@ function invalid(e:Event):void{
 		}
 
 		public function validate(...e):Boolean{
+			if(validateWithoutEventDispatch()){
+				dispatchEvent(new Event(SmartTextField.EVENT_VALID));
+				return true;
+			}else{
+				dispatchEvent(new Event(SmartTextField.EVENT_INVALID));
+				return false;
+			}
+			return false;
+		}
+
+		public function validateWithoutEventDispatch():Boolean{
 			var result:Boolean=false;
 			if(_validateFunction!=null){
 				result = _validateFunction(base.text);
@@ -62,11 +78,8 @@ function invalid(e:Event):void{
 				result=true;
 			}			
 			if(result==false){
-				dispatchEvent(new Event(SmartTextField.EVENT_INVALID));
 				return false;
 			}
-
-			dispatchEvent(new Event(SmartTextField.EVENT_VALID));
 			return result;
 		}
 
@@ -103,7 +116,7 @@ function invalid(e:Event):void{
 		}
 		
 		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.when(this,eventType,whichObject,callFunction);
+			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);
 			return this;
 		}
 		

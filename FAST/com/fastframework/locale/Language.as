@@ -1,8 +1,9 @@
 ﻿package com.fastframework.locale {
-	import com.fastframework.event.EventDispatcherUtils;
-
+	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.SingletonError;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+
 
 	/**
 	 * @author colin
@@ -11,18 +12,22 @@
 
 		private static var ins:Language;
 		public static function instance():Language {
-			ins ||=new Language(new SingletonBlocker());
+			ins ||=new Language();
 			return ins;
 		}
 
 		public static var LANG_EN:Array = ["en","eng"];
-		public static var LANG_CN:Array = ["zh-CN","schi"];
+		public static var LANG_SC:Array = ["zh-CN","sc"];
+		public static var LANG_TC:Array = ["zh-TW","tc"];
 		
 		private var currentLang:Array = LANG_EN;
 		
-		public function Language(p_key:SingletonBlocker) {}
+		public function Language() {
+			if(ins!=null){throw new SingletonError(this);}
+			ins = this;
+		}
 		
-		public function set lang(strLang:Array):void{
+		public function set langPack(strLang:Array):void{
 			currentLang = strLang[0];
 			dispatchEvent(new Event(Event.CHANGE));
 		}
@@ -36,10 +41,8 @@
 		}
 		
 		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.when(this, eventType, whichObject, callFunction);
+			EventDispatcherUtils.instance().when(this, eventType, whichObject, callFunction);
 			return this;
 		}
 	}
 }
-
-internal class SingletonBlocker {}

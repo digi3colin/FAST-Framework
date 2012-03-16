@@ -1,22 +1,25 @@
-package {
-	import com.fastframework.event.EventDispatcherUtils;
-
+﻿package {
+	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.SingletonError;
 	import flash.events.EventDispatcher;
 	import flash.external.ExternalInterface;
+
 
 	/**
 	 * @author colin
 	 */
 	final public class JS extends EventDispatcher implements IFASTEventDispatcher{
+
 		private static var ins:JS;
 		public static function instance():JS {
-			ins ||=new JS(new SingletonBlocker());
-			return ins;
+			return ins || new JS();
 		}
 
-		public function JS(p_key:SingletonBlocker) {
+		public function JS() {
+			if( ins != null ) throw new SingletonError();
+			ins = this;
+
 			ExternalInterface.addCallback("sendToActionScript", jscall);
-			p_key;
 		}
 
 		public function call(functionName:String,...args:*):*{
@@ -29,10 +32,8 @@ package {
 		}
 		
 		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.when(this, eventType, whichObject, callFunction);
+			EventDispatcherUtils.instance().when(this, eventType, whichObject, callFunction);
 			return this;
 		}
 	}
 }
-
-internal class SingletonBlocker {}

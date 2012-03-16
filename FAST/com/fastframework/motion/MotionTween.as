@@ -1,21 +1,30 @@
-﻿package com.fastframework.motion {	import com.fastframework.event.EventDispatcherUtils;	import mx.transitions.easing.Regular;	import flash.display.DisplayObject;	import flash.display.MovieClip;	import flash.events.Event;	import flash.events.EventDispatcher;	import flash.geom.ColorTransform;	import flash.utils.clearTimeout;	import flash.utils.setTimeout;	public class MotionTween extends EventDispatcher implements IFASTEventDispatcher{		private var target_mc:DisplayObject; 
+﻿package com.fastframework.motion {	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.easing.Regular;
+	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.geom.ColorTransform;
+	import flash.utils.clearTimeout;
+	import flash.utils.setTimeout;
+	public class MotionTween extends EventDispatcher implements IFASTEventDispatcher{		private var mc:DisplayObject; 
 
 		private var time:Number;		private var beginState:MotionTransform;
 		private var targetState:MotionTransform;		private var deltaState:MotionTransform;
 	
-		public var dur:int              = 10;
-		public var tweenDelay:int       = 0;		public var response:Boolean     = false;
-		public var goFrame:String       = "";
-		public var indTweenMethod:Array = [];		public var tweenMethod:Function;
+		private var dur:int              = 10;
+		private var tweenDelay:int       = 0;		private var response:Boolean     = false;
+		private var goFrame:String       = "";
+		private var indTweenMethod:Array = [];		private var tweenMethod:Function;
 
 		private var mcProxy : TweenControl;		private var colorDiff : Number=0;		private var _isTweening:Boolean;
-		public function MotionTween(mc:DisplayObject,obj:Object=null) {
-			target_mc = mc;			beginState = new MotionTransform();			targetState= new MotionTransform();
+		public function dealloc(...e):void{			mc.loaderInfo.removeEventListener(Event.UNLOAD, dealloc);			MotionTweenIterator.instance().removeTween(this);			MotionTweenIterator.instance().removeTweenControl(mc);			beginState = null;			targetState = null;			deltaState = null;			indTweenMethod = null;			tweenMethod = null;			mcProxy = null;			mc = null;		}		public function MotionTween(mc:DisplayObject,obj:Object=null) {			if(mc.loaderInfo!=null)mc.loaderInfo.addEventListener(Event.UNLOAD, dealloc);
+			this.mc = mc;			beginState = new MotionTransform();			targetState= new MotionTransform();
 			mcProxy = MotionTweenIterator.instance().getTweenControl(mc);
 			setDefaultProps();
 			indTweenMethod = new Array();			tweenMethod = Regular.easeInOut;			if(obj!=null)setTargetProps(obj);
 		}
-		public function when(eventType:String,whichObject:Object,callFunction:Function):*{			EventDispatcherUtils.when(this,eventType,whichObject,callFunction);			return this;		}
+		public function when(eventType:String,whichObject:Object,callFunction:Function):*{			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);			return this;		}
 		//tween method for different properties.
 		public function indTweenMethodCode(prop:String,t:Number, b:Number, c:Number, d:Number):Number{
 			return (typeof(indTweenMethod[prop])=='function')?indTweenMethod[prop](t,b,c,d):tweenMethod(t,b,c,d);
@@ -32,12 +41,12 @@
 			if(Boolean(colorDiff>>8&1))deltaState.c.blueOffset      = targetState.c.blueOffset      - beginState.c.blueOffset;
 		}
 		public function tweenCode():void{
-			if(beginState.x !=targetState.x)target_mc.x        = indTweenMethodCode('x' ,time ,beginState.x ,deltaState.x ,dur);
-			if(beginState.y !=targetState.y)target_mc.y        = indTweenMethodCode('y' ,time ,beginState.y ,deltaState.y ,dur);
-			if(beginState.r !=targetState.r)target_mc.rotation = indTweenMethodCode('r' ,time ,beginState.r ,deltaState.r ,dur);
-			if(beginState.xs!=targetState.xs)target_mc.scaleX  = indTweenMethodCode('xs',time ,beginState.xs,deltaState.xs,dur);
-			if(beginState.ys!=targetState.ys)target_mc.scaleY  = indTweenMethodCode('ys',time ,beginState.ys,deltaState.ys,dur);
-			if(colorDiff>0){				//clone the target's current color transform.				var ncolor:ColorTransform = target_mc.transform.colorTransform;				if(Boolean(colorDiff>>1&1))ncolor.alphaMultiplier   = indTweenMethodCode('c', time, beginState.c.alphaMultiplier, deltaState.c.alphaMultiplier, dur);				if(Boolean(colorDiff>>2&1))ncolor.alphaOffset       = indTweenMethodCode('c', time, beginState.c.alphaOffset,     deltaState.c.alphaOffset,     dur);				if(Boolean(colorDiff>>3&1))ncolor.redMultiplier     = indTweenMethodCode('c', time, beginState.c.redMultiplier,   deltaState.c.redMultiplier,   dur);				if(Boolean(colorDiff>>4&1))ncolor.redOffset         = indTweenMethodCode('c', time, beginState.c.redOffset,       deltaState.c.redOffset,       dur);				if(Boolean(colorDiff>>5&1))ncolor.greenMultiplier   = indTweenMethodCode('c', time, beginState.c.greenMultiplier, deltaState.c.greenMultiplier, dur);				if(Boolean(colorDiff>>6&1))ncolor.greenOffset       = indTweenMethodCode('c', time, beginState.c.greenOffset,     deltaState.c.greenOffset,     dur);				if(Boolean(colorDiff>>7&1))ncolor.blueMultiplier    = indTweenMethodCode('c', time, beginState.c.blueMultiplier,  deltaState.c.blueMultiplier,  dur);				if(Boolean(colorDiff>>8&1))ncolor.blueOffset        = indTweenMethodCode('c', time, beginState.c.blueOffset,      deltaState.c.blueOffset,      dur);				target_mc.transform.colorTransform = ncolor;			}
+			if(beginState.x !=targetState.x)mc.x        = indTweenMethodCode('x' ,time ,beginState.x ,deltaState.x ,dur);
+			if(beginState.y !=targetState.y)mc.y        = indTweenMethodCode('y' ,time ,beginState.y ,deltaState.y ,dur);
+			if(beginState.r !=targetState.r)mc.rotation = indTweenMethodCode('r' ,time ,beginState.r ,deltaState.r ,dur);
+			if(beginState.xs!=targetState.xs)mc.scaleX  = indTweenMethodCode('xs',time ,beginState.xs,deltaState.xs,dur);
+			if(beginState.ys!=targetState.ys)mc.scaleY  = indTweenMethodCode('ys',time ,beginState.ys,deltaState.ys,dur);
+			if(colorDiff>0){				//clone the target's current color transform.				var ncolor:ColorTransform = mc.transform.colorTransform;				if(Boolean(colorDiff>>1&1))ncolor.alphaMultiplier   = indTweenMethodCode('c', time, beginState.c.alphaMultiplier, deltaState.c.alphaMultiplier, dur);				if(Boolean(colorDiff>>2&1))ncolor.alphaOffset       = indTweenMethodCode('c', time, beginState.c.alphaOffset,     deltaState.c.alphaOffset,     dur);				if(Boolean(colorDiff>>3&1))ncolor.redMultiplier     = indTweenMethodCode('c', time, beginState.c.redMultiplier,   deltaState.c.redMultiplier,   dur);				if(Boolean(colorDiff>>4&1))ncolor.redOffset         = indTweenMethodCode('c', time, beginState.c.redOffset,       deltaState.c.redOffset,       dur);				if(Boolean(colorDiff>>5&1))ncolor.greenMultiplier   = indTweenMethodCode('c', time, beginState.c.greenMultiplier, deltaState.c.greenMultiplier, dur);				if(Boolean(colorDiff>>6&1))ncolor.greenOffset       = indTweenMethodCode('c', time, beginState.c.greenOffset,     deltaState.c.greenOffset,     dur);				if(Boolean(colorDiff>>7&1))ncolor.blueMultiplier    = indTweenMethodCode('c', time, beginState.c.blueMultiplier,  deltaState.c.blueMultiplier,  dur);				if(Boolean(colorDiff>>8&1))ncolor.blueOffset        = indTweenMethodCode('c', time, beginState.c.blueOffset,      deltaState.c.blueOffset,      dur);				mc.transform.colorTransform = ncolor;			}
 			dispatchEvent(new Event(MotionTweenEvent.TWEENING));//{target:this,type:'onTween'});
 			time++;
 			if(time>dur){				killTween();
@@ -55,8 +64,8 @@
 			clearTimeout(mcProxy.timeoutId);			mcProxy.timeoutId = setTimeout(initTween,tweenDelay);			return this;
 		};
 		
-		private function initTween():void{			if((goFrame!="")&&(target_mc is MovieClip)){
-				MovieClip(target_mc).gotoAndPlay(goFrame);
+		private function initTween():void{			if((goFrame!="")&&(mc is MovieClip)){
+				MovieClip(mc).gotoAndPlay(goFrame);
 			}
 			if(isNeedTween()){				onTweenStart();
 				setBeginProps();
@@ -68,27 +77,27 @@
 	
 		public function killTween():void{
 			clearTimeout(mcProxy.timeoutId);			removeTween();
-			target_mc.visible = (target_mc.transform.colorTransform.alphaMultiplier == 0) || (target_mc.transform.colorTransform.alphaOffset == -255)||(target_mc.alpha==0)?false:true;
+			mc.visible = (mc.transform.colorTransform.alphaMultiplier == 0) || (mc.transform.colorTransform.alphaOffset == -255)||(mc.alpha==0)?false:true;
 			_isTweening = false;
 		};
 	
 		public function setBeginProps():void{
 			time = 0;
-			beginState.x  = target_mc.x;
-			beginState.y  = target_mc.y;
-			beginState.r  = target_mc.rotation;
-			beginState.xs = target_mc.scaleX;
-			beginState.ys = target_mc.scaleY;
-			beginState.c  = target_mc.transform.colorTransform;
+			beginState.x  = mc.x;
+			beginState.y  = mc.y;
+			beginState.r  = mc.rotation;
+			beginState.xs = mc.scaleX;
+			beginState.ys = mc.scaleY;
+			beginState.c  = mc.transform.colorTransform;
 		};
 	
 		private function setDefaultProps():void{
-			targetState.x  = target_mc.x;
-			targetState.y  = target_mc.y;
-			targetState.r  = target_mc.rotation;
-			targetState.xs = target_mc.scaleX;
-			targetState.ys = target_mc.scaleY;
-			targetState.c  = target_mc.transform.colorTransform;
+			targetState.x  = mc.x;
+			targetState.y  = mc.y;
+			targetState.r  = mc.rotation;
+			targetState.xs = mc.scaleX;
+			targetState.ys = mc.scaleY;
+			targetState.c  = mc.transform.colorTransform;
 		};
 
 		public function setTargetProps(obj:Object):void{			if(mcProxy.isTweening ==true){
@@ -123,21 +132,21 @@
 	
 		private function isNeedTween():Boolean{			if(response==true)return true;
 			if(isColorNeedTween()==true)return true;
-			if(target_mc.x       !=targetState.x)return true;
-			if(target_mc.y       !=targetState.y)return true;
-			if(target_mc.alpha   !=targetState.c.alphaMultiplier)return true;
-			if(target_mc.rotation!=targetState.r)return true;
-			if(target_mc.scaleX  !=targetState.xs)return true;
-			if(target_mc.scaleY  !=targetState.ys)return true;
+			if(mc.x       !=targetState.x)return true;
+			if(mc.y       !=targetState.y)return true;
+			if(mc.alpha   !=targetState.c.alphaMultiplier)return true;
+			if(mc.rotation!=targetState.r)return true;
+			if(mc.scaleX  !=targetState.xs)return true;
+			if(mc.scaleY  !=targetState.ys)return true;
 			return false;
 		};
 	
-		private function isColorNeedTween():Boolean{			var currColor:ColorTransform = target_mc.transform.colorTransform;			colorDiff =0;			if(currColor.color          !=targetState.c.color)          colorDiff+=1;			if(currColor.alphaMultiplier!=targetState.c.alphaMultiplier)colorDiff+=2;			if(currColor.alphaOffset    !=targetState.c.alphaOffset)    colorDiff+=4;			if(currColor.redMultiplier  !=targetState.c.redMultiplier)  colorDiff+=8;			if(currColor.redOffset      !=targetState.c.redOffset)      colorDiff+=16;			if(currColor.greenMultiplier!=targetState.c.greenMultiplier)colorDiff+=32;			if(currColor.greenOffset    !=targetState.c.greenOffset)    colorDiff+=64;			if(currColor.blueMultiplier !=targetState.c.blueMultiplier) colorDiff+=128;			if(currColor.blueOffset     !=targetState.c.blueOffset)     colorDiff+=256;			return (colorDiff>0);
+		private function isColorNeedTween():Boolean{			var currColor:ColorTransform = mc.transform.colorTransform;			colorDiff =0;			if(currColor.color          !=targetState.c.color)          colorDiff+=1;			if(currColor.alphaMultiplier!=targetState.c.alphaMultiplier)colorDiff+=2;			if(currColor.alphaOffset    !=targetState.c.alphaOffset)    colorDiff+=4;			if(currColor.redMultiplier  !=targetState.c.redMultiplier)  colorDiff+=8;			if(currColor.redOffset      !=targetState.c.redOffset)      colorDiff+=16;			if(currColor.greenMultiplier!=targetState.c.greenMultiplier)colorDiff+=32;			if(currColor.greenOffset    !=targetState.c.greenOffset)    colorDiff+=64;			if(currColor.blueMultiplier !=targetState.c.blueMultiplier) colorDiff+=128;			if(currColor.blueOffset     !=targetState.c.blueOffset)     colorDiff+=256;			return (colorDiff>0);
 		}
 	
 		private function addTween():void{
 			MotionTweenIterator.instance().addTween(this);
-			target_mc.visible = true;
+			mc.visible = true;
 		};
 	
 		private function removeTween():void{

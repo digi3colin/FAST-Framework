@@ -5,8 +5,8 @@
 	 * @author colin
 	 */
 	final public class Conversion {
-		static private var toDeg:Number = 180/Math.PI;
-		static private var toRad:Number = Math.PI/180;
+		static public var toDeg:Number = 180/Math.PI;
+		static public var toRad:Number = Math.PI/180;
 		
 		static public function hexToColor(argHex:Number,argAlpha:Number=1):ColorTransform{// change hex value to color transform object
 			return CSSColor.toColorTransform(argHex, argAlpha);

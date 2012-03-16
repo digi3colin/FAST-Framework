@@ -1,4 +1,0 @@
-﻿package com.fastframework.navigation {	import flash.events.Event;
-	
-	/**	 * @author colin	 */	final public class NavigationEvent extends Event {		public static const CHANGE:String='change';		public var navKey:String;		public var targetContainer:String;		public var isSuppress:Boolean;		public var eventDispatcher:Object;		public function NavigationEvent(type : String, navKey:String, targetContainer:String, isSupress:Boolean=false, eventDispatcher:Object=null, bubbles : Boolean = false, cancelable : Boolean = false) {			super(type, bubbles, cancelable);			this.navKey = navKey;			this.targetContainer = targetContainer;			this.isSuppress = isSupress;			this.eventDispatcher = eventDispatcher;		}				
-	}}

@@ -1,18 +1,0 @@
-﻿package com.fastframework.view.events {
-	import flash.events.Event;		/**
-	 * @author Colin
- */
-	public class VideoPlayerEvent extends Event{
-		public static const STOP:String="onStop";
-		public static const PLAY:String="onPlay";
-		
-		public static const METADATA:String="onMetaData";
-		public static const EARLIESTSTARTTIME:String = "onEarliestStartTime";
-		public static const PLAYING:String = 'onPlaying';
-		public static const PLAYEND:String = 'playEnd';
-
-		public function VideoPlayerEvent(type : String, bubbles : Boolean = true, cancelable : Boolean = false) {
-			super(type, bubbles, cancelable);
-		}
-	}
-}

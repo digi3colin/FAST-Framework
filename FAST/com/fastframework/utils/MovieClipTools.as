@@ -17,6 +17,16 @@
 		public static function makeClickDisable(mc:InteractiveObject):void{
 		};
 
+		static public function print(mc:DisplayObject):String{
+			var str:String=mc.name;
+			
+			while(mc.parent!=null){
+				str = mc.parent.name+"/"+str;
+				mc = mc.parent;
+			}
+			return str;
+		}
+
 		static public function notResize(mc:DisplayObject):void{
 			var o:Point = mc.localToGlobal(new Point());
 			var p:Point = mc.localToGlobal(new Point(1,1));

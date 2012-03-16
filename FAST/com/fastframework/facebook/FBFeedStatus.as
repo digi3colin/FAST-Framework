@@ -1,27 +1,26 @@
 package com.fastframework.facebook{
-	import com.fastframework.error.SingletonError;
-	import com.fastframework.event.EventDispatcherUtils;
-
+	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.SingletonError;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+
 
 	/**
 	 * @author colin
 	 */
 	final public class FBFeedStatus extends EventDispatcher implements IFASTEventDispatcher{
 		private static var ins : FBFeedStatus;
-
 		public static function instance():FBFeedStatus {
-			ins ||=new FBFeedStatus(new SingletonBlocker());
-			return ins;
+			return ins ||new FBFeedStatus();
 		}
 		
-		public function FBFeedStatus(p_key:SingletonBlocker) {
-			if(p_key==null)throw new SingletonError(this);
+		public function FBFeedStatus() {
+			if(ins!=null)throw new SingletonError(this);
+			ins = this;
 		}
 		
 		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.when(this,eventType,whichObject,callFunction);
+			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);
 			return this;
 		}
 		
