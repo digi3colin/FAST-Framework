@@ -1,23 +1,25 @@
 package com.fastframework.facebook {
-	import com.fastframework.core.EventDispatcherUtils;
-	import flash.events.EventDispatcher;
-
+	import com.fastframework.core.FASTEventDispatcher;
+	import com.fastframework.core.IFASTEventDispatcher;
+	import com.fastframework.core.SingletonError;
+	import com.fastframework.utils.JS;
+	import com.fastframework.utils.JSEvent;
 
 	/**
 	 * @author colin
 	 */
-	final public class FBConnect extends EventDispatcher implements IFASTEventDispatcher{
+	final public class FBConnect extends FASTEventDispatcher implements IFASTEventDispatcher{
 		private static var ins:FBConnect;
 		public static function instance():FBConnect {
-			ins ||=new FBConnect(new SingletonBlocker());
-			return ins;
+			return ins || new FBConnect();
 		}
 
 		private const p:String = "FB.Connect.";
-		public function FBConnect(p_key:SingletonBlocker) {
+		public function FBConnect() {
+			if(ins!=null)throw new SingletonError(this);ins = this;
+			
 			JS.instance().when(JSEvent.CALLBACK,this,jscall);
 			JS.instance().call('onFlashReady');
-			p_key;
 		}
 		
 		private function jscall(e:JSEvent):void{
@@ -51,6 +53,7 @@ package com.fastframework.facebook {
 		{
 			JS.instance().call(p+"inviteConnectUsers");
 		}
+
 		public function logout (callback:String=""):void
 		{
 			
@@ -95,12 +98,5 @@ package com.fastframework.facebook {
 			
 			return JS.instance().call(p+"streamPublish",user_message,attachment,action_links,target_id,user_message_prompt,callback,auto_publish);
 		}
-		
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.instance().when(this, eventType, whichObject, callFunction);
-			return this;
-		}
 	}
 }
-
-class SingletonBlocker{}

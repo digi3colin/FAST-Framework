@@ -1,10 +1,11 @@
 ﻿package com.fastframework.net {
-	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.FASTEventDispatcher;
+	import com.fastframework.utils.AS2;
 	import com.fastframework.utils.Queue;
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.events.HTTPStatusEvent;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
@@ -21,7 +22,7 @@
 	 * 
 	 * in default, error icon and preloader icon attach to _root
 	 */
-	final public class ProgressLoader extends EventDispatcher implements ILoader{
+	final public class ProgressLoader extends FASTEventDispatcher implements ILoader{
 		private var loader : ILoader;
 
 		private var preloaderParent : DisplayObjectContainer; 
@@ -91,10 +92,6 @@
 			loader.unload();
 			if(preloader!=null && preloader.parent!=null)preloader.parent.removeChild(preloader);
 			if(errorIcon!=null && errorIcon.parent!=null)errorIcon.parent.removeChild(errorIcon);
-		}
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);
-			return this;
 		}
 
 		public function load(request:String):Boolean{
@@ -127,6 +124,7 @@ import com.fastframework.net.ILoader;
 import com.fastframework.net.IProgressBar;
 import com.fastframework.net.ProgressLoader;
 import com.fastframework.utils.ICommand;
+
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.net.URLVariables;

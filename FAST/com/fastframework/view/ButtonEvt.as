@@ -1,11 +1,10 @@
 ﻿package com.fastframework.view {
-	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.FASTLog;
 	import com.fastframework.utils.MovieClipTools;
 	import com.fastframework.view.events.ButtonClipEvent;
+
 	import flash.display.SimpleButton;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
@@ -14,7 +13,7 @@
 	/**
 	 * @author Colin
 	 */
-	final public class ButtonEvt extends EventDispatcher implements IButtonClip, IFASTEventDispatcher{
+	final public class ButtonEvt extends FASTEventDispatcher implements IButtonClip{
 		private var _isHighlight:Boolean = false;
 		private var hitArea: SimpleButton;
 		private var overDelay : int=0;
@@ -23,26 +22,14 @@
 		private var outIID:uint;
 		private var elements : Array;
 	
-		private function autorelease(e:Event):void{
-			hitArea.loaderInfo.removeEventListener(Event.UNLOAD, autorelease);
-			hitArea.removeEventListener(MouseEvent.ROLL_OVER,	over);
-			hitArea.removeEventListener(MouseEvent.ROLL_OUT,	out);
-			hitArea.removeEventListener(MouseEvent.CLICK,		click);
-			hitArea.removeEventListener(MouseEvent.MOUSE_DOWN,	down);
-//			EventDispatcherUtils.instance().autorelease(this);
-		}
 
 		public function ButtonEvt(hitarea:SimpleButton){
 			elements=[];
 			this.hitArea = hitarea;
-			hitArea.addEventListener(MouseEvent.ROLL_OVER,  over);
-			hitArea.addEventListener(MouseEvent.ROLL_OUT,   out);
-			hitArea.addEventListener(MouseEvent.CLICK,		click);
-			hitArea.addEventListener(MouseEvent.MOUSE_DOWN, down);
-			
-			if(hitArea.loaderInfo!=null){
-				hitArea.loaderInfo.addEventListener(Event.UNLOAD, autorelease);
-			}
+			hitArea.addEventListener(MouseEvent.ROLL_OVER,  over,	false,0,true);
+			hitArea.addEventListener(MouseEvent.ROLL_OUT,   out,	false,0,true);
+			hitArea.addEventListener(MouseEvent.CLICK,		click,	false,0,true);
+			hitArea.addEventListener(MouseEvent.MOUSE_DOWN, down,	false,0,true);
 		}
 
 		public function addElement(element:IButtonElement):IButtonClip{
@@ -100,13 +87,13 @@
 		}
 		
 		private function click(...e):void {
-			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(hitArea) + ":click/mouseup",FASTLog.LOG_LEVEL_DETAIL);
+			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(hitArea) + ":click/mouseup",	FASTLog.LOG_LEVEL_DETAIL);
 			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_UP	, isHighlight));
 			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.CLICK		, isHighlight));
 		}
 	
 		private function down(...e):void{
-			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(hitArea)+":mousedown",FASTLog.LOG_LEVEL_DETAIL);
+			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(hitArea)+":mousedown",		FASTLog.LOG_LEVEL_DETAIL);
 			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_DOWN, isHighlight));
 		}
 
@@ -148,11 +135,6 @@
 	
 		public function clearMouseOut() : IButtonClip {
 			clearTimeout(outIID);
-			return this;
-		}
-
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);
 			return this;
 		}
 	}

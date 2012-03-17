@@ -1,19 +1,21 @@
 package com.fastframework.facebook {
-	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.FASTEventDispatcher;
+	import com.fastframework.core.IFASTEventDispatcher;
+	import com.fastframework.core.SingletonError;
+	import com.fastframework.utils.JS;
 	import com.fastframework.utils.StringUtils;
+
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 
 
 	/**
 	 * @author colin
 	 */
-	final public class FBUser extends EventDispatcher implements IFASTEventDispatcher{
+	final public class FBUser extends FASTEventDispatcher implements IFASTEventDispatcher{
 		private static var ins : FBUser;
 
 		public static function instance():FBUser {
-			ins ||=new FBUser(new SingletonBlocker());
-			return ins;
+			return ins || new FBUser();
 		}
 		public static const EVENT_LOGON:String     = "logon";
 		public static const EVENT_LOGOUT:String    = "logout";
@@ -29,14 +31,10 @@ package com.fastframework.facebook {
 		public var defaultPic:String="blank.png";
 		public var _loginInApplication:Boolean = false;
 
-		public function FBUser(p_key:SingletonBlocker) {
+		public function FBUser() {
+			if(ins!=null)throw new SingletonError(this);ins = this;
+			
 			FBConnect.instance().when(FBConnectEvent.CALLBACK, this, fbCallback);
-			p_key;
-		}
-				
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);
-			return this;
 		}
 		
 		private function fbCallback(e:FBConnectEvent):void{
@@ -103,5 +101,3 @@ package com.fastframework.facebook {
 		}
 	}
 }
-
-class SingletonBlocker{}

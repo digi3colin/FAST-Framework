@@ -1,29 +1,41 @@
 ﻿package com.fastframework.net {
-	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.utils.Queue;
+
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
 	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
 
 	/**
 	 * @author colin
 	 */
-	public class LoadingQueue implements ILoader {
+	public class LoadingQueue extends FASTEventDispatcher implements ILoader {
 		private var loader:ILoader;
 		private var queueId:int = 0;
 		public function LoadingQueue(loader:ILoader,queueId:int=0){
 			this.loader = loader;
 			this.queueId = queueId;
-			this.loader.when(Event.COMPLETE, 				this, nextCommand);
-			this.loader.when(IOErrorEvent.IO_ERROR, 		this, nextCommand);
-			this.loader.when(Event.UNLOAD, 					this, nextCommand);
+			this.loader.when(LoaderEvent.COMPLETE, 		this, nextCommand);
+			this.loader.when(LoaderEvent.IO_ERROR, 		this, nextCommand);
+			this.loader.when(LoaderEvent.UNLOAD, 		this, nextCommand);
+
+			this.loader.when(LoaderEvent.COMPLETE, 		this, forwardEvent);
+			this.loader.when(LoaderEvent.IO_ERROR, 		this, forwardEvent);
+			this.loader.when(LoaderEvent.HTTP_STATUS, 	this, forwardEvent);
+			this.loader.when(LoaderEvent.OPEN, 			this, forwardEvent);
+			this.loader.when(LoaderEvent.PROGRESS, 		this, forwardEvent);
+			this.loader.when(LoaderEvent.UNLOAD, 		this, forwardEvent);
+			this.loader.when(LoaderEvent.READY,			this, forwardEvent);
 		}
 
 		private function nextCommand(e:Event):void{
 			Queue.instance(queueId).next();
 		}
-		
+
+		private function forwardEvent(e:Event):void{
+			dispatchEvent(e);
+		}
+
 		public function load(url : String) : Boolean {
 			Queue.instance(queueId).addCommand(new CommandLoad(loader, url ,this));
 			return false;
@@ -53,31 +65,6 @@
 
 		public function getContext() : * {
 			return loader.getContext();
-		}
-
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.instance().when(this, eventType, whichObject, callFunction);
-			return this;
-		}
-
-		public function addEventListener(type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void {
-			this.loader.addEventListener(type, listener,useCapture,priority,useWeakReference);
-		}
-
-		public function dispatchEvent(event : Event) : Boolean {
-			return this.loader.dispatchEvent(event);
-		}
-
-		public function hasEventListener(type : String) : Boolean {
-			return this.loader.hasEventListener(type);
-		}
-
-		public function removeEventListener(type : String, listener : Function, useCapture : Boolean = false) : void {
-			this.loader.removeEventListener(type, listener, useCapture);
-		}
-
-		public function willTrigger(type : String) : Boolean {
-			return this.loader.willTrigger(type);
 		}
 	}
 }

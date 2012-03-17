@@ -1,0 +1,5 @@
+#Sat Mar 17 13:38:51 HKT 2012
+com.powerflasher.fdt.core.apparat.disabled.launchers=
+com.powerflasher.fdt.core.apparat.features=Reducer q\=.5|Stripper |Dump o\=${swfLocation}/dump uml|
+eclipse.preferences.version=1
+useProjectSettings=true

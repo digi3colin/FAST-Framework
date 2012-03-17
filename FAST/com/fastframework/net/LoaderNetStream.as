@@ -1,7 +1,7 @@
 ﻿package com.fastframework.net {
-	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.FASTEventDispatcher;
+
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.events.HTTPStatusEvent;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
@@ -14,7 +14,7 @@
 	/**
 	 * @author colin
 	 */
-	public final class LoaderNetStream extends EventDispatcher implements ILoader {
+	public final class LoaderNetStream extends FASTEventDispatcher implements ILoader {
 		private var base:NetStream;
 		private var nc:NetConnection;
 
@@ -67,10 +67,6 @@
 		public function getContext() : * {
 			if(base==null)lazyLoading();
 			return base;
-		}
-
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.instance().when(this, eventType, whichObject, callFunction);
 		}
 	}
 }

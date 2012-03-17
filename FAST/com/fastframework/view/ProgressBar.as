@@ -1,4 +1,5 @@
 ﻿package com.fastframework.view {
+	import com.fastframework.motion.MotionTween;
 	import com.fastframework.net.ILoader;
 	import com.fastframework.net.IProgressBar;
 	import com.fastframework.utils.MovieClipTools;
@@ -18,7 +19,7 @@
 		private var parentLoaderInfo:LoaderInfo;
 		public var bar:Sprite;
 		private var txt:TextField;
-		private var motion:Motion;
+		private var motion:MotionTween;
 		private var isShow:Boolean =false;
 		private var loader:ILoader;
 		
@@ -29,7 +30,7 @@
 			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage);
 			txt = MovieClipTools.findTextField(this);
 			if(txt==null)isHeadless = true;
-			motion = new Motion(this).hideSprite();
+			motion = new MotionTween(this).hideSprite();
 		}
 
 		private function onAddedToStage(...e):void{

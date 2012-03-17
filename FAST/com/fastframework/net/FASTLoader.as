@@ -1,8 +1,8 @@
 ﻿package com.fastframework.net {
-	import com.fastframework.core.EventDispatcherUtils;
+	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.FASTLog;
+
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.events.HTTPStatusEvent;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
@@ -13,7 +13,7 @@
 	/**
 	 * @author Digi3Studio - Colin Leung
 	 */
-	public class FASTLoader extends EventDispatcher implements ILoader {
+	public class FASTLoader extends FASTEventDispatcher implements ILoader {
 		public static var sessionId:String='';
 		private var isLoading:Boolean = false;
 		private var loader : ILoader;
@@ -113,11 +113,6 @@
 
 		public function getBytesTotal() : Number {
 			return this.loader.getBytesTotal();
-		}
-
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			EventDispatcherUtils.instance().when(this, eventType, whichObject, callFunction);
-			return this;
 		}
 
 		public function getContext() : * {

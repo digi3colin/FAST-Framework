@@ -1,19 +1,19 @@
 ﻿package com.fastframework.view {
+	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.navigation.Navigation;
 	import com.fastframework.core.navigation.NavigationEvent;
 	import com.fastframework.view.events.ButtonClipEvent;
+
 	import flash.display.SimpleButton;
-	import flash.events.Event;
 
 
 	/**
 	 * @author Colin
 	 * decorator of ButtonClip
 	 */
-	final public class NavButton implements IButtonClip, IFASTEventDispatcher{
+	final public class NavButton extends FASTEventDispatcher implements IButtonClip{
 		private var base:ButtonEvt;
-		private var nav:Navigation;
-	
+
 		public var navKey:String;
 		public var targetContainer: String;
 
@@ -24,13 +24,11 @@
 			this.navKey = navKey;
 			this.targetContainer = targetContainer;
 
-			nav = Navigation.instance().when(NavigationEvent.CHANGE,this,highlightButton);
+			Navigation.instance().when(NavigationEvent.CHANGE,this,highlightButton);
 		}
 
 		private function click(e:ButtonClipEvent):void{
-			var nav:Navigation = Navigation.instance();
-			nav.clearNavStackRequests();
-			nav.changeSection(navKey, targetContainer, false, base.getBase());
+			Navigation.instance().changeSection(navKey, targetContainer, false, base.getBase());
 		}
 
 		private function highlightButton(e:NavigationEvent):void{
@@ -85,31 +83,6 @@
 		public function clearMouseOut() : IButtonClip {
 			base.clearMouseOut();
 			return this;
-		}
-		
-		public function when(eventType : String, whichObject : Object, callFunction : Function) : * {
-			base.when(eventType,whichObject,callFunction);
-			return this;
-		}
-		
-		public function dispatchEvent(event : Event) : Boolean {
-			return base.dispatchEvent(event);
-		}
-		
-		public function hasEventListener(type : String) : Boolean {
-			return base.hasEventListener(type);
-		}
-		
-		public function willTrigger(type : String) : Boolean {
-			return base.willTrigger(type);
-		}
-		
-		public function removeEventListener(type : String, listener : Function, useCapture : Boolean = false) : void {
-			base.removeEventListener(type, listener,useCapture);
-		}
-		
-		public function addEventListener(type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void {
-			base.addEventListener(type, listener,useCapture,priority,useWeakReference);
 		}
 	}
 }

@@ -1,13 +1,15 @@
-﻿package com.fastframework.motion {	import com.fastframework.core.EventDispatcherUtils;
+﻿package com.fastframework.motion {
+	import com.fastframework.core.FASTEventDispatcher;
+	import com.fastframework.core.IFASTEventDispatcher;
 	import com.fastframework.easing.Regular;
+
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.geom.ColorTransform;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
-	public class MotionTween extends EventDispatcher implements IFASTEventDispatcher{		private var mc:DisplayObject; 
+	public class MotionTween extends FASTEventDispatcher implements IFASTEventDispatcher{		private var mc:DisplayObject; 
 
 		private var time:Number;		private var beginState:MotionTransform;
 		private var targetState:MotionTransform;		private var deltaState:MotionTransform;
@@ -24,7 +26,7 @@
 			setDefaultProps();
 			indTweenMethod = new Array();			tweenMethod = Regular.easeInOut;			if(obj!=null)setTargetProps(obj);
 		}
-		public function when(eventType:String,whichObject:Object,callFunction:Function):*{			EventDispatcherUtils.instance().when(this,eventType,whichObject,callFunction);			return this;		}
+		public function hideSprite():MotionTween{			this.mc.alpha=0;			this.mc.visible=false;			return this;		}
 		//tween method for different properties.
 		public function indTweenMethodCode(prop:String,t:Number, b:Number, c:Number, d:Number):Number{
 			return (typeof(indTweenMethod[prop])=='function')?indTweenMethod[prop](t,b,c,d):tweenMethod(t,b,c,d);

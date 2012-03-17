@@ -3,6 +3,7 @@
  * @author colin
  */
 package com.fastframework.net{
+	import com.fastframework.core.IFASTEventDispatcher;
 	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
 	public interface ILoader extends IFASTEventDispatcher{
