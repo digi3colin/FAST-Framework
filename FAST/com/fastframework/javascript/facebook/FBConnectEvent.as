@@ -1,4 +1,4 @@
-package com.fastframework.facebook {
+package com.fastframework.javascript.facebook {
 	import flash.events.Event;
 
 	/**

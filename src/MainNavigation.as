@@ -1,6 +1,6 @@
 package {
-	import com.fastframework.core.navigation.NavigationEvent;
-	import com.fastframework.core.navigation.Navigation;
+	import com.fastframework.navigation.Navigation;
+	import com.fastframework.navigation.NavigationEvent;
 	import flash.display.Sprite;
 
 	/**

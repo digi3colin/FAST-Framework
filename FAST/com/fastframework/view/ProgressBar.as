@@ -1,8 +1,8 @@
 ﻿package com.fastframework.view {
+	import com.fastframework.core.utils.MovieClipTools;
 	import com.fastframework.motion.MotionTween;
 	import com.fastframework.net.ILoader;
 	import com.fastframework.net.IProgressBar;
-	import com.fastframework.utils.MovieClipTools;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.LoaderInfo;
 	import flash.display.MovieClip;
@@ -10,6 +10,7 @@
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.text.TextField;
+
 
 
 	/**

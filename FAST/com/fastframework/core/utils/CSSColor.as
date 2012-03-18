@@ -1,4 +1,4 @@
-﻿package com.fastframework.utils {
+﻿package com.fastframework.core.utils {
 	import flash.geom.ColorTransform;	
 	
 	/**

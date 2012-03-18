@@ -1,4 +1,4 @@
-﻿package com.fastframework.core.navigation{
+﻿package com.fastframework.navigation{
 /**
  * @author colin
  */

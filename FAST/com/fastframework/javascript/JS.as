@@ -1,4 +1,4 @@
-﻿package com.fastframework.utils {
+﻿package com.fastframework.javascript {
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.IFASTEventDispatcher;
 	import com.fastframework.core.SingletonError;

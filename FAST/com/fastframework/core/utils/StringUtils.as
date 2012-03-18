@@ -1,4 +1,4 @@
-﻿package com.fastframework.utils {
+﻿package com.fastframework.core.utils {
 
 	/**
 	 * @author colin
@@ -128,10 +128,16 @@
 			}
 			return str;
 		}
-	
-		public static function replace(rawString:String,stringToFind:String,stringToReplace:String):String{
-			return rawString.split(stringToFind).join(stringToReplace);
+
+		static public function thousandSeperator(num:Number):String{
+			var values:Array = num.toString().split(".");
+			var sValue:String = values[0];
+			var sRegExp:RegExp = new RegExp('(-?[0-9]+)([0-9]{3})');
+			
+			while(sRegExp.test(sValue)) {
+				sValue = sValue.replace(sRegExp, '$1,$2'); 
+			} 
+			return sValue+ ((values[1]==null)?"":("."+values[1]));
 		}
 	}
-
 }

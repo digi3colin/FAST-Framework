@@ -1,4 +1,4 @@
-﻿package com.fastframework.utils {
+﻿package com.fastframework.core.utils {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;

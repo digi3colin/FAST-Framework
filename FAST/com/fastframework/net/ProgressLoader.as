@@ -1,8 +1,7 @@
 ﻿package com.fastframework.net {
 	import com.fastframework.core.FASTEventDispatcher;
+	import com.fastframework.core.Queue;
 	import com.fastframework.utils.AS2;
-	import com.fastframework.utils.Queue;
-
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -11,6 +10,7 @@
 	import flash.events.ProgressEvent;
 	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
+
 
 
 	/**
@@ -120,15 +120,15 @@
 		}
 	}
 }
+import com.fastframework.core.ICommand;
 import com.fastframework.net.ILoader;
 import com.fastframework.net.IProgressBar;
 import com.fastframework.net.ProgressLoader;
-import com.fastframework.utils.ICommand;
-
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.net.URLVariables;
 import flash.utils.ByteArray;
+
 
 
 class ProgressLoaderLoadCommand implements ICommand {

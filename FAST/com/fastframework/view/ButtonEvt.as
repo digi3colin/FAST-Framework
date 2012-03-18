@@ -1,13 +1,13 @@
 ﻿package com.fastframework.view {
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.FASTLog;
-	import com.fastframework.utils.MovieClipTools;
+	import com.fastframework.core.utils.MovieClipTools;
 	import com.fastframework.view.events.ButtonClipEvent;
-
 	import flash.display.SimpleButton;
 	import flash.events.MouseEvent;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
+
 
 
 	/**

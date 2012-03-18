@@ -1,17 +1,17 @@
 ﻿package com.fastframework.view {
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.IFASTEventDispatcher;
-	import com.fastframework.core.navigation.Navigation;
-	import com.fastframework.core.navigation.NavigationEvent;
+	import com.fastframework.core.utils.SystemUtils;
 	import com.fastframework.motion.MotionTween;
 	import com.fastframework.motion.MotionTweenEvent;
+	import com.fastframework.navigation.Navigation;
+	import com.fastframework.navigation.NavigationEvent;
 	import com.fastframework.net.ILoader;
 	import com.fastframework.net.LoaderEvent;
 	import com.fastframework.net.LoaderFactory;
-	import com.fastframework.utils.SystemUtils;
-
 	import flash.display.Sprite;
 	import flash.events.Event;
+
 
 
 

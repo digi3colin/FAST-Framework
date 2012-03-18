@@ -1,10 +1,10 @@
 ﻿package com.fastframework.view {
 	import com.fastframework.core.FASTEventDispatcher;
-	import com.fastframework.core.navigation.Navigation;
-	import com.fastframework.core.navigation.NavigationEvent;
+	import com.fastframework.navigation.Navigation;
+	import com.fastframework.navigation.NavigationEvent;
 	import com.fastframework.view.events.ButtonClipEvent;
-
 	import flash.display.SimpleButton;
+
 
 
 	/**

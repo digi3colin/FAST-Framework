@@ -1,9 +1,9 @@
 package tests.core {
 	import asunit.framework.TestCase;
+	import com.fastframework.navigation.NavStackRequest;
+	import com.fastframework.navigation.Navigation;
+	import com.fastframework.navigation.NavigationEvent;
 
-	import com.fastframework.core.navigation.NavStackRequest;
-	import com.fastframework.core.navigation.Navigation;
-	import com.fastframework.core.navigation.NavigationEvent;
 	/**
 	 * @author colin
 	 */

@@ -1,9 +1,9 @@
-package com.fastframework.facebook {
+package com.fastframework.javascript.facebook {
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.IFASTEventDispatcher;
 	import com.fastframework.core.SingletonError;
-	import com.fastframework.utils.JS;
-	import com.fastframework.utils.JSEvent;
+	import com.fastframework.javascript.JS;
+	import com.fastframework.javascript.JSEvent;
 
 	/**
 	 * @author colin

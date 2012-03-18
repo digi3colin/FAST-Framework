@@ -1,8 +1,8 @@
-﻿package com.fastframework.view {	import com.fastframework.core.FASTEventDispatcher;	import com.fastframework.core.navigation.Navigation;	import com.fastframework.utils.MovieClipTools;	import com.fastframework.utils.StringUtils;	import com.fastframework.utils.SystemUtils;	import flash.display.DisplayObjectContainer;	import flash.display.InteractiveObject;	import flash.display.SimpleButton;	/**	 * @author Colin	 */
+﻿package com.fastframework.view {	import com.fastframework.core.FASTEventDispatcher;	import com.fastframework.core.utils.MovieClipTools;	import com.fastframework.core.utils.SystemUtils;	import com.fastframework.navigation.Navigation;	import flash.display.DisplayObjectContainer;	import flash.display.InteractiveObject;	import flash.display.SimpleButton;	/**	 * @author Colin	 */
 	final public class NavBtn extends FASTEventDispatcher implements IButtonClip{
 		public static var FILEPREFIX:String = 'FILEPREFIX';		private var base:NavButton;
 
-		public function NavBtn(mc:InteractiveObject,navId:String="",targetContainer:String=""){			if((mc is SimpleButton || mc is DisplayObjectContainer)==false){				throw new Error('NavBtn only accept SimpleButton or DisplayObjectContainer');			}			var n:String = mc.name;			n = StringUtils.replace(mc.name, FILEPREFIX, SystemUtils.getMovieFileName(mc, false));
+		public function NavBtn(mc:InteractiveObject,navId:String="",targetContainer:String=""){			if((mc is SimpleButton || mc is DisplayObjectContainer)==false){				throw new Error('NavBtn only accept SimpleButton or DisplayObjectContainer');			}			var n:String = mc.name;			n = mc.name.replace(FILEPREFIX, SystemUtils.getMovieFileName(mc, false));
 			var para:Array = n.split("$");			var hitArea:SimpleButton;						if(mc is SimpleButton){				hitArea = mc as SimpleButton;			}else{				hitArea = MovieClipTools.findButton(DisplayObjectContainer(mc));			}
 			base = new NavButton(hitArea,								(navId=="")?para[1]:navId,								(targetContainer=="")?para[2]:targetContainer);			base.highlightButtonByNavKey(Navigation.instance().getNavKey());
 		}

@@ -1,5 +1,4 @@
-﻿package com.fastframework.utils {
-	import com.fastframework.core.SingletonError;
+﻿package com.fastframework.core {
 	import flash.utils.Dictionary;
 
 

@@ -1,12 +1,13 @@
 ﻿package com.fastframework.view {
 	import com.fastframework.core.FASTEventDispatcher;
+	import com.fastframework.core.utils.MovieClipTools;
 	import com.fastframework.motion.MotionTween;
-	import com.fastframework.utils.MovieClipTools;
 	import com.fastframework.view.events.ButtonClipEvent;
-
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
+
+
 
 
 	/**

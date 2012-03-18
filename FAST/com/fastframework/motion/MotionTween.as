@@ -2,13 +2,13 @@
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.IFASTEventDispatcher;
 	import com.fastframework.easing.Regular;
-
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.geom.ColorTransform;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
+
 	public class MotionTween extends FASTEventDispatcher implements IFASTEventDispatcher{		private var mc:DisplayObject; 
 
 		private var time:Number;		private var beginState:MotionTransform;

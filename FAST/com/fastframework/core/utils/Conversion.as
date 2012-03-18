@@ -1,5 +1,5 @@
-﻿package com.fastframework.utils {
-	import flash.geom.ColorTransform;	
+﻿package com.fastframework.core.utils {
+	import flash.geom.ColorTransform;
 	
 	/**
 	 * @author colin
@@ -18,17 +18,6 @@
 		
 		static public function degreeToRadian(d:Number):Number{
 			return d*toRad;
-		}
-		
-		static public function thousandSeperator(num:Number):String{
-			var values:Array = num.toString().split(".");
-			var sValue:String = values[0];
-			var sRegExp:RegExp = new RegExp('(-?[0-9]+)([0-9]{3})');
-			
-			while(sRegExp.test(sValue)) {
-				sValue = sValue.replace(sRegExp, '$1,$2'); 
-			} 
-			return sValue+ ((values[1]==null)?"":("."+values[1]));
 		}
 	}
 }

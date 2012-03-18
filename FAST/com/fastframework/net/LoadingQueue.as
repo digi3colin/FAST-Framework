@@ -1,10 +1,10 @@
 ﻿package com.fastframework.net {
 	import com.fastframework.core.FASTEventDispatcher;
-	import com.fastframework.utils.Queue;
-
+	import com.fastframework.core.Queue;
 	import flash.events.Event;
 	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
+
 
 	/**
 	 * @author colin
@@ -68,12 +68,12 @@
 		}
 	}
 }
+import com.fastframework.core.ICommand;
 import com.fastframework.net.ILoader;
 import com.fastframework.net.LoadingQueue;
-import com.fastframework.utils.ICommand;
-
 import flash.net.URLVariables;
 import flash.utils.ByteArray;
+
 
 class CommandLoad implements ICommand {
 	private var loader:ILoader;

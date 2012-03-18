@@ -1,13 +1,14 @@
 package com.fastframework.view {
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.IFASTEventDispatcher;
-	import com.fastframework.utils.MovieClipTools;
+	import com.fastframework.core.utils.MovieClipTools;
 	import com.fastframework.view.events.ActionEvent;
 	import com.fastframework.view.events.ButtonClipEvent;
-
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.TextField;
+
+
 
 
 	/**

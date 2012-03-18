@@ -1,4 +1,4 @@
-﻿package com.fastframework.utils {
+﻿package com.fastframework.core {
 
 	/**
 	 * @author colin
