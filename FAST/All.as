@@ -33,7 +33,6 @@
 	import com.fastframework.net.ParseSWF;
 	import com.fastframework.net.ParseVAR;
 	import com.fastframework.net.ProgressLoader;
-	import com.fastframework.net.ResolveLink;
 	import com.fastframework.utils.AS2;
 	import com.fastframework.utils.ArrayUtils;
 	import com.fastframework.utils.Validate;
@@ -96,7 +95,6 @@
 
 			ProgressLoader;
 
-			ResolveLink;
 			ArrayUtils;
 			Conversion;
 			CSSColor;
