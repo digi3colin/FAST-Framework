@@ -15,7 +15,7 @@
 		public function LoadingQueue(loader:ILoader,queueId:int=0){
 			this.loader = loader;
 			this.queueId = queueId;
-			this.loader.when(LoaderEvent.COMPLETE, 		this, nextCommand);
+			this.loader.when(LoaderEvent.READY, 		this, nextCommand);
 			this.loader.when(LoaderEvent.IO_ERROR, 		this, nextCommand);
 			this.loader.when(LoaderEvent.UNLOAD, 		this, nextCommand);
 

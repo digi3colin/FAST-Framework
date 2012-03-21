@@ -1,7 +1,6 @@
 ﻿package com.fastframework.net {
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.core.FASTLog;
-
 	import flash.events.Event;
 	import flash.events.HTTPStatusEvent;
 	import flash.events.IOErrorEvent;
@@ -24,13 +23,15 @@
 			this.behaviour = behaviour;
 			
 			this.loader = loader;
-			this.loader.when(Event.COMPLETE, 				this, onLoad);
-			this.loader.when(IOErrorEvent.IO_ERROR, 		this, onIOError);
-			this.loader.when(HTTPStatusEvent.HTTP_STATUS, 	this, onHttpStatus);
-			this.loader.when(Event.OPEN, 					this, onOpen);
 			this.loader.when(ProgressEvent.PROGRESS, 		this, onProgress);
-			this.loader.when(Event.UNLOAD, 					this, onUnload);
-			this.loader.when(LoaderEvent.READY,				this, forwardEvent);
+			this.loader.when(Event.COMPLETE, 				this,onLoad);
+			this.loader.when(IOErrorEvent.IO_ERROR, 		this,onIOError);
+			this.loader.when(HTTPStatusEvent.HTTP_STATUS, 	this,onHttpStatus);
+			this.loader.when(Event.UNLOAD, 					this,onUnload);
+
+			this.loader.when(LoaderEvent.READY,	this,onReady);
+			this.loader.when(Event.OPEN, 		this,onOpen);
+
 		}
 
 		private function onLoad(e:Event):void{
@@ -66,6 +67,11 @@
 			forwardEvent(e);
 		}
 
+		private function onReady(e:Event):void{
+			FASTLog.instance().log(e.toString(),FASTLog.LOG_LEVEL_DETAIL);
+			forwardEvent(e);
+		}
+
 		private function forwardEvent(e:Event):void{
 			dispatchEvent(e);
 		}
@@ -82,6 +88,7 @@
 		public function sendAndLoad(url : String, postData : URLVariables, method : String) : Boolean {
 			if(isLoading==true)return false;
 			this.url = url;
+
 			isLoading = this.loader.sendAndLoad(url=urlWithSession(url), postData, method);
 			FASTLog.instance().log('sendAndLoad:'+url,FASTLog.LOG_LEVEL_ACTION);
 			return isLoading;
@@ -90,6 +97,7 @@
 		public function sendBinaryAndLoad(url : String, binary : ByteArray) : Boolean {
 			if(isLoading==true)return false;
 			this.url = url;
+
 			isLoading = this.loader.sendBinaryAndLoad(url=urlWithSession(url),binary);
 			FASTLog.instance().log('sendBinaryAndLoad:'+url,FASTLog.LOG_LEVEL_ACTION);
 			return isLoading;
@@ -98,6 +106,7 @@
 		public function load(url : String) : Boolean {
 			if(isLoading==true)return false;
 			this.url = url;
+
 			isLoading = this.loader.load(url=urlWithSession(url));
 			FASTLog.instance().log('load:'+url,FASTLog.LOG_LEVEL_ACTION);
 			return isLoading;
