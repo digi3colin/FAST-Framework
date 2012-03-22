@@ -32,7 +32,6 @@
 	import com.fastframework.net.ParseIMG;
 	import com.fastframework.net.ParseSWF;
 	import com.fastframework.net.ParseVAR;
-	import com.fastframework.net.ProgressLoader;
 	import com.fastframework.utils.AS2;
 	import com.fastframework.utils.ArrayUtils;
 	import com.fastframework.utils.Validate;
@@ -40,7 +39,6 @@
 	import com.fastframework.view.ButtonClip;
 	import com.fastframework.view.ButtonEvt;
 	import com.fastframework.view.ButtonIcon;
-	import com.fastframework.view.Content;
 	import com.fastframework.view.FASTRadioButton;
 	import com.fastframework.view.IButtonClip;
 	import com.fastframework.view.IButtonElement;
@@ -49,8 +47,7 @@
 	import com.fastframework.view.SmartTextField;
 	import com.fastframework.view.ToolTips;
 	import com.fastframework.view.events.ButtonClipEvent;
-
-
+	import doot.Content;
 
 	/**
 	 * @author colin
@@ -92,8 +89,6 @@
 			ParseIMG;
 			ParseSWF;
 			ParseVAR;
-
-			ProgressLoader;
 
 			ArrayUtils;
 			Conversion;

@@ -1,44 +1,63 @@
-package com.fastframework.view {
+﻿package com.fastframework.view {
 	import com.fastframework.core.FASTEventDispatcher;
 	import com.fastframework.view.events.ButtonClipEvent;
 
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
+	import flash.utils.Dictionary;
 
 
 	/**
 	 * @author colin
 	 */
 	public class FASTRadioButton extends FASTEventDispatcher implements IButtonClip{
-		private static var groups:Array;
+		private static var groups:Dictionary;
 		
 		private var view:DisplayObjectContainer;
 		private var base:ButtonClip;
 		private var buttonGroupName:String;
+		private var buttonName:String;
+		private var group:Dictionary;
 
 		public function FASTRadioButton(view:Sprite,parameter:String=null){
-			groups||=[];
+			groups||=new Dictionary(true);
 
 			this.view = view;
 
 			base = new ButtonClip(view);
-			base.addEventListener(ButtonClipEvent.CLICK, onClick,false,1,true);
+			base.when(ButtonClipEvent.CLICK, this, onClick);
+			base.when(ButtonClipEvent.SELECT, this, onSelect);
 
 			var para:Array;
 			if(parameter==null){
+				//no parameter supplied. use sprite name;
 				para = view.name.split('$');
+				
+				//if sprite have parent, append the parent's name to make it more unique;
+				if(view.parent!=null)para[0] = view.parent.name+para[0];
+
 			}else{
 				para = parameter.split('$');
 			}
 
 			buttonGroupName = para[0];
+			buttonName = para[1];
 			if(view.parent!=null)buttonGroupName = view.parent.name + para[0];
 
-			groups[buttonGroupName] ||= new Array();
-			groups[buttonGroupName][para[1]] = this;
+			groups[buttonGroupName] ||= new Dictionary(true);
+			groups[buttonGroupName][buttonName] = this;
 
+			group = groups[buttonGroupName];
 		}
 
+		private function onSelect(e:ButtonClipEvent):void{
+			dispatchEvent(new ButtonClipEvent(e.type,e.highlight,e.bubbles,e.cancelable));		
+		}
+
+		private function onClick(e:ButtonClipEvent):void{
+			this.select(true);
+			dispatchEvent(new ButtonClipEvent(e.type,e.highlight,e.bubbles,e.cancelable));
+		}
 		
 		public function addElement(element : IButtonElement) : IButtonClip {
 			base.addElement(element);
@@ -48,15 +67,17 @@ package com.fastframework.view {
 		public function getElements() : Array {
 			return base.getElements();
 		}
-		
-		public function select() : IButtonClip {
-			base.select();
 
-			for(var name:String in groups[buttonGroupName]){
-				FASTRadioButton(groups[buttonGroupName][name]).base.isHighlight = false;
+		public function select(bln:Boolean = true) : IButtonClip {
+			if(bln==true){
+				Dictionary(groups[buttonGroupName])['selected']=this;
 			}
-			
-			base.isHighlight = true;
+
+			for each(var btn:FASTRadioButton in groups[buttonGroupName]){
+				if(btn==this)continue;
+				btn.base.select(false);
+			}
+			this.base.select(bln);
 			return this;
 		}
 		
@@ -80,16 +101,9 @@ package com.fastframework.view {
 			return this;
 		}
 
-		private function onClick(e:ButtonClipEvent):void{
-			this.select();
-			dispatchEvent(e);
-		}
-		
 		public function getValue():String{
-			for(var name:String in groups[buttonGroupName]){
-				if(FASTRadioButton(groups[buttonGroupName][name]).base.isHighlight == true)return name;
-			}
-			return "";
+			if(group['selected']==null)return "";
+			return FASTRadioButton(group['selected']).buttonName;
 		}
 	}
 }

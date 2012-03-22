@@ -11,7 +11,7 @@
 			base.addElement(element);			return this;
 		}
 			public function getElements():Array{			return base.getElements();		}
-		public function select() : IButtonClip {
-			base.select();			return this;
+		public function select(bln:Boolean=true) : IButtonClip {
+			base.select(bln);			return this;
 		}		public function setMouseOverDelay(miniSecond : int) : IButtonClip {			base.setMouseOverDelay(miniSecond);			return this;		}				public function setMouseOutDelay(miniSecond : int) : IButtonClip {			base.setMouseOutDelay(miniSecond);			return this;		}				public function clearMouseOver() : IButtonClip {			base.clearMouseOver();			return this;		}				public function clearMouseOut() : IButtonClip {			base.clearMouseOut();			return this;		}
 	}}

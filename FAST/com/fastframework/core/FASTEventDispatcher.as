@@ -1,4 +1,4 @@
-package com.fastframework.core {
+﻿package com.fastframework.core {
 	import flash.events.EventDispatcher;
 
 	/**

@@ -17,7 +17,7 @@
 		public var navKey:String;
 		public var targetContainer: String;
 
-		public function NavButton(hitarea:SimpleButton,navKey:String,targetContainer:String=null){			
+		public function NavButton(hitarea:SimpleButton,navKey:String,targetContainer:String=''){			
 			base = new ButtonEvt(hitarea);
 			base.when(ButtonClipEvent.CLICK, this,click);
 
@@ -28,7 +28,7 @@
 		}
 
 		private function click(e:ButtonClipEvent):void{
-			Navigation.instance().changeSection(navKey, targetContainer, false, base.getBase());
+			Navigation.instance().changeSection(navKey, targetContainer);
 		}
 
 		private function highlightButton(e:NavigationEvent):void{
@@ -40,11 +40,11 @@
 
 			for(var i:int=0;i<nav_key.split("_").length;i++){
 				if(this.navKey==nav_key.split("_",i+1).join("_")){
-					base.isHighlight = true;
+					base.select(true);
 					return;
 				}
 			}
-			base.isHighlight = false;		
+			base.select(false);
 		}
 		
 		public function addElement(element : IButtonElement) : IButtonClip {
@@ -55,13 +55,9 @@
 		public function getElements():Array{
 			return base.getElements();
 		}
-		
-		public function get isHighlight():Boolean{
-			return base.isHighlight;
-		}
-		
-		public function select() : IButtonClip {
-			base.select();
+
+		public function select(bln:Boolean=true) : IButtonClip {
+			base.select(bln);
 			return this;
 		}
 		

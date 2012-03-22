@@ -3,12 +3,9 @@
 	import com.fastframework.core.utils.MovieClipTools;
 	import com.fastframework.motion.MotionTween;
 	import com.fastframework.view.events.ButtonClipEvent;
+
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
 	import flash.events.Event;
-
-
-
 
 	/**
 	 * @author Colin
@@ -24,7 +21,7 @@
 
         public var repeatPerFrame:int = 0;
 
-		public function ButtonClip(view:Sprite) {
+		public function ButtonClip(view:DisplayObjectContainer) {
 			this.view = view;
 
 		    base = new ButtonEvt(MovieClipTools.findButton(view));
@@ -45,11 +42,12 @@
 			base.when(ButtonClipEvent.CLICK, this,forwardEvent);
 			base.when(ButtonClipEvent.SELECT, this,forwardEvent);
 		}
-		
+
 		private function forwardEvent(e:ButtonClipEvent):void{
-			this.dispatchEvent(e);
+			//flash will change the ButtonClipEvent to Event.. :(
+			this.dispatchEvent(new ButtonClipEvent(e.type,e.highlight,e.bubbles,e.cancelable));
 		}
-		
+
 		public function addElement(element : IButtonElement) : IButtonClip {
 	        base.addElement(element);
 	        return this;
@@ -59,8 +57,8 @@
 	        return base.getElements();
 		}
 		
-		public function select() : IButtonClip {
-	        base.select();
+		public function select(bln:Boolean=true) : IButtonClip {
+	        base.select(bln);
 	        return this;
 		}
 		
@@ -91,14 +89,6 @@
 		
 		public function getEnabled():Boolean{
 	        return _enabled;
-		}
-		
-		public function get isHighlight():Boolean{
-			return base.isHighlight;
-		}
-		
-		public function set isHighlight(value:Boolean):void{
-			base.isHighlight = value;
 		}
 
 		private function loop(e:Event):void{

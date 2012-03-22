@@ -14,22 +14,71 @@
 	 * @author Colin
 	 */
 	final public class ButtonEvt extends FASTEventDispatcher implements IButtonClip{
-		private var _isHighlight:Boolean = false;
-		private var hitArea: SimpleButton;
+		private var isHighlight:Boolean = false;
 		private var overDelay : int=0;
 		private var outDelay:int=0;
 		private var overIID:uint;
 		private var outIID:uint;
 		private var elements : Array;
-	
+		
+		private var hitarea:SimpleButton;
 
 		public function ButtonEvt(hitarea:SimpleButton){
 			elements=[];
-			this.hitArea = hitarea;
-			hitArea.addEventListener(MouseEvent.ROLL_OVER,  over,	false,0,true);
-			hitArea.addEventListener(MouseEvent.ROLL_OUT,   out,	false,0,true);
-			hitArea.addEventListener(MouseEvent.CLICK,		click,	false,0,true);
-			hitArea.addEventListener(MouseEvent.MOUSE_DOWN, down,	false,0,true);
+			this.hitarea = hitarea;
+			hitarea.addEventListener(MouseEvent.ROLL_OVER,  over,	false,0,true);
+			hitarea.addEventListener(MouseEvent.ROLL_OUT,   out,	false,0,true);
+			hitarea.addEventListener(MouseEvent.CLICK,		click,	false,0,true);
+			hitarea.addEventListener(MouseEvent.MOUSE_DOWN, down,	false,0,true);
+		}
+
+		private function clearIID():void{
+			clearTimeout(overIID);
+			clearTimeout(outIID);
+		}
+
+		private function over(e:MouseEvent):void{
+			clearIID();
+			if(overDelay==0){
+				doOver();
+			}else{
+				overIID = setTimeout(doOver,overDelay);
+			}
+		}
+	
+		private function doOver():void{
+			clearIID();
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_OVER, isHighlight));
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.ROLL_OVER , isHighlight));
+		}
+
+		private function out(e:MouseEvent):void{
+			clearIID();
+			if(outDelay==0){
+				doOut();
+			}else{
+				outIID = setTimeout(doOut,outDelay);
+			}
+		}
+		
+		private function doOut():void{
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_OUT , isHighlight));
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.ROLL_OUT  , isHighlight));
+		}
+
+		private function click(e:MouseEvent):void {
+			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(SimpleButton(e.target)) + ":click/mouseup",	FASTLog.LOG_LEVEL_DETAIL);
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_UP	, isHighlight));
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.CLICK		, isHighlight));
+		}
+	
+		private function down(e:MouseEvent):void{
+			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(SimpleButton(e.target))+":mousedown",		FASTLog.LOG_LEVEL_DETAIL);
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_DOWN, isHighlight));
+		}
+		
+		private function reset():void{
+			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.RESET     , isHighlight));
 		}
 
 		public function addElement(element:IButtonElement):IButtonClip{
@@ -47,73 +96,11 @@
 		public function getElements():Array{
 			return elements;
 		}
-
-		private function clearIID():void{
-			clearTimeout(overIID);
-			clearTimeout(outIID);
-		}
-
-		private function out(...e):void{
-			clearIID();
-			if(outDelay==0){
-				doOut();
-			}else{
-				outIID = setTimeout(doOut,outDelay);
-			}
-		}
-		
-		private function doOut():void{
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_OUT , isHighlight));
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.ROLL_OUT  , isHighlight));
-		}
 	
-		private function over(e:MouseEvent):void{
-			clearIID();
-			if(overDelay==0){
-				doOver();
-			}else{
-				overIID = setTimeout(doOver,overDelay);
-			}
-		}
-	
-		private function doOver():void{
-			clearIID();
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_OVER, isHighlight));
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.ROLL_OVER , isHighlight));
-		}
-		
-		private function reset():void{
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.RESET     , isHighlight));
-		}
-		
-		private function click(...e):void {
-			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(hitArea) + ":click/mouseup",	FASTLog.LOG_LEVEL_DETAIL);
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_UP	, isHighlight));
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.CLICK		, isHighlight));
-		}
-	
-		private function down(...e):void{
-			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(hitArea)+":mousedown",		FASTLog.LOG_LEVEL_DETAIL);
-			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.MOUSE_DOWN, isHighlight));
-		}
-
-		public function get isHighlight():Boolean{
-			return _isHighlight;
-		}
-		
-		public function set isHighlight(value:Boolean):void{
-			_isHighlight = value;
+		public function select(bln:Boolean = true) : IButtonClip {
+			isHighlight = bln;
 			reset();
-		}
-		
-		public function getBase():SimpleButton{
-			return hitArea;
-		}
-
-		public function select() : IButtonClip {
-			isHighlight = true;
-			reset();
-			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(hitArea)+":select",FASTLog.LOG_LEVEL_DETAIL);
+			FASTLog.instance().log("[ButtonEvt]:"+MovieClipTools.print(SimpleButton(hitarea))+":select:"+bln,FASTLog.LOG_LEVEL_DETAIL);
 			dispatchEvent(new ButtonClipEvent(ButtonClipEvent.SELECT, isHighlight));
 			return this;
 		}
