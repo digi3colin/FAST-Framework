@@ -1,0 +1,3 @@
+[submodule "FAST"]
+	path = FAST
+	url = git@github.com:digi3colin/FAST3.git
