@@ -1,4 +1,4 @@
-package tests {
+﻿package tests {
 	import asunit.framework.TestCase;
 
 	/**

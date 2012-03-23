@@ -1,5 +1,5 @@
 digraph G {
-  fontname="Bitstream Vera Sans Mono";  
+  fontname="Arial";  
   fontsize=8;  
   ranksep=2;  
   ratio=auto;  
@@ -9,39 +9,60 @@ digraph G {
     overlap= false    
   ];  
   node[  
-    fontname="Bitstream Vera Sans Mono",    
+    fontname="Arial",    
     fontsize=8,    
     shape="record"    
   ];  
   edge[  
-    fontname="Bitstream Vera Sans Mono",    
+    fontname="Arial",    
     fontsize=8,    
     arrowhead="empty"    
   ];  
   subgraph clusterP0{  
+    5 [label="{TestRun||}"];    
+    label="TopLevel";    
+  }  
+  subgraph clusterP1{  
+    18 [label="{Version|$ - version: String = \"3.0\"\l|$ + id(): String \{final\}\l}"];    
+    17 [label="{BaseTestRunner||$ + getFilteredTrace(p0: String): String \{final\}\l}"];    
+    label="asunit.runner";    
+  }  
+  subgraph clusterP2{  
     31 [label="{SingletonError\n\{final\}||}"];    
     30 [label="{EventDispatcherUtils\n\{final\}|$ - ins: EventDispatcherUtils\l|$ + instance(): EventDispatcherUtils \{final\}\l+ once(p0: IFASTEventDispatcher, p1: String, p2: Object, p3: Function): null\l+ when(p0: IFASTEventDispatcher, p1: String, p2: Object, p3: Function): void\l- onceHandler(p0: Function): Function\l}"];    
     26 [label="{FASTEventDispatcher||+ once(p0: String, p1: Object, p2: Function): null\l+ when(p0: String, p1: Object, p2: Function): null\l}"];    
     25 [label="{\<\<interface\>\>\nIFASTEventDispatcher|once(p0: String, p1: Object, p2: Function): null\lwhen(p0: String, p1: Object, p2: Function): null\l}"];    
     label="com.fastframework.core";    
   }  
-  subgraph clusterP1{  
+  subgraph clusterP3{  
     28 [label="{NavigationEvent\n\{final\}|$ + CHANGE: String = \"change\" \{read-only\}\l+ eventDispatcher: Object\l+ isSuppress: Boolean\l+ navKey: String\l+ targetContainer: String\l|}"];    
-    27 [label="{Navigation\n\{final\}|$ - ins: Navigation\l- navKey: String\l- navStackRequests: Array\l|$ + instance(): Navigation \{final\}\l+ changeSection(p0: String, p1: String = null, p2: Boolean = false, p3: Object = null): void\l+ changeSections(p0: Array): void\l+ getNavKey(): String\l+ getNavStackRequests(): Array\l+ nextSection(): void\l}"];    
+    27 [label="{Navigation\n\{final\}|$ - ins: Navigation\l- navKey: String\l- navStackRequests: Array\l|$ + instance(): Navigation \{final\}\l+ changeSection(p0: String, p1: String = \"\", p2: Boolean = false, p3: Object = null): void\l+ changeSections(p0: Array): void\l+ getNavKey(): String\l+ getNavStackRequests(): Array\l+ nextSection(): void\l}"];    
     24 [label="{NavStackRequest\n\{final\}|+ eventDispatcher: Object\l+ isSuppress: Boolean\l+ navKey: String\l+ targetContainer: String\l|+ toString(): String\l}"];    
     label="com.fastframework.navigation";    
   }  
-  subgraph clusterP2{  
+  subgraph clusterP4{  
     13 [label="{ArrayIterator|- index: Number = 0\l- list: Array\l|+ hasNext(): Boolean\l+ next(): Object\l+ reset(): void\l}"];    
     12 [label="{\<\<interface\>\>\nIterator|hasNext(): Boolean\lnext(): Object\lreset(): void\l}"];    
     label="asunit.util";    
   }  
-  subgraph clusterP3{  
+  subgraph clusterP5{  
+    32 [label="{AbstractError||}"];    
+    23 [label="{InstanceNotFoundError||}"];    
+    11 [label="{AssertionFailedError||}"];    
+    label="asunit.errors";    
+  }  
+  subgraph clusterP6{  
     16 [label="{FASTEventDispatcherTest|- asyncCallBack: Function\l- dispatchCount: int = 0\l- instance: FASTEventDispatcher\l|# setUp(): void \{redefines setUp\}\l# tearDown(): void \{redefines tearDown\}\l+ testAddEventListener(): void\l+ testAddTwice(): void\l+ testInstance(): void\l+ testOnce(): void\l+ testWhen(): void\l- postAddEventListener(p0: Event): void\l- postAddTwice(p0: Event): void\l- postOnce(p0: Event): void\l- postWhenChange(p0: Event): void\l}"];    
     15 [label="{NavigationTest|- asyncEventChange: Function\l- instance: Navigation\l- navKey: String = \"1_0\"\l- navKeyToEvaluate: String\l- targetContainer: String = \"top\"\l|# setUp(): void \{redefines setUp\}\l# tearDown(): void \{redefines tearDown\}\l+ testEventChange(): void\l+ testInstance(): void\l+ testNavStackRequest(): void\l- postEventChange(p0: NavigationEvent): void\l- postNavStackRequest(p0: NavigationEvent): void\l}"];    
     label="tests.core";    
   }  
-  subgraph clusterP4{  
+  subgraph clusterP7{  
+    20 [label="{TestTime|+ duration: int \{read-only\}\l- _duration: int\l- _name: String\l|$ + create(p0: Test, p1: int): TestTime \{final\}\l+ toString(): String\l}"];    
+    9 [label="{ResultPrinter|# startTime: Number\l# testTimes: Array\l+ height: void \{redefines height\} \{write-only\}\l+ width: void \{redefines width\} \{write-only\}\l- backgroundColor: uint = 3355443\l- bar: SuccessBar\l- barHeight: Number = 3\l- fColumn: int = 0\l- gutter: uint = 0\l- showTrace: Boolean\l- textArea: TextField\l|# elapsedTimeAsString(p0: Number): String\l# printDefectHeader(p0: TestFailure, p1: int): void\l# printDefectTrace(p0: TestFailure): void\l# printDefects(p0: Object, p1: int, p2: String): void\l# printErrors(p0: TestResult): void\l# printFailures(p0: TestResult): void\l# printFooter(p0: TestResult): void\l# printHeader(p0: Number): void\l# printTimeSummary(): void\l+ addError(p0: Test, p1: Error): void\l+ addFailure(p0: Test, p1: AssertionFailedError): void\l+ endTest(p0: Test): void\l+ endTestMethod(p0: Test, p1: String): void\l+ onFormatTimeout(p0: TextFormat, p1: uint, p2: uint): void\l+ print(): void\l+ printDefect(p0: TestFailure, p1: int): void\l+ printResult(p0: TestResult, p1: Number): void\l+ println(): void\l+ run(p0: Test): void\l+ setShowTrace(p0: Boolean): void\l+ startTest(p0: Test): void\l+ startTestMethod(p0: Test, p1: String): void\l- configureAssets(): void\l}"];    
+    0 [label="{TestRunner|# fPrinter: ResultPrinter\l# result: TestResult\l# startTime: Number\l$ + EXCEPTION_EXIT: int = 2 \{read-only\}\l$ + FAILURE_EXIT: int = 1 \{read-only\}\l$ + SHOW_TRACE: Boolean = true \{read-only\}\l$ + SUCCESS_EXIT: int = 0 \{read-only\}\l|# addedHandler(p0: Event): void\l+ doRun(p0: Test, p1: Boolean = false): TestResult\l+ getPrinter(): ResultPrinter\l+ setPrinter(p0: ResultPrinter): void\l+ start(p0: Class, p1: String = null, p2: Boolean = false): TestResult\l- configureListeners(): void\l- resizeHandler(p0: Event): void\l- testCompleteHandler(p0: Event): void\l}"];    
+    label="asunit.textui";    
+  }  
+  subgraph clusterP8{  
     29 [label="{AsynchronousTestCase|$ - INVALID_TIME: int = -1 \{read-only\}\l$ DEFAULT_REMOTE_TIMEOUT: int = 30000 \{read-only\}\l+ ioErrorExpected: void \{write-only\}\l+ remoteDuration: int \{read-only\}\l+ remoteTimeout: void \{write-only\}\l+ securityErrorExpected: void \{write-only\}\l- _ioErrorExpected: Boolean\l- _remoteDuration: int\l- _remoteStartTime: int\l- _remoteTimeout: int\l- _securityErrorExpected: Boolean\l|# completeHandler(p0: Event): void \{final\}\l# configureListeners(p0: URLLoader): void\l# httpStatusHandler(p0: HTTPStatusEvent): void\l# ioErrorHandler(p0: IOErrorEvent): void \{final\}\l# openHandler(p0: Event): void\l# progressHandler(p0: ProgressEvent): void\l# runTests(): void \{final\}\l# securityErrorHandler(p0: SecurityErrorEvent): void \{final\}\l# setDataSource(p0: Event): void\l+ remoteDurationIsValid(): Boolean\l+ run(): void \{redefines run\}\l+ testRemoteDuration(): void\l+ testUnauthorizedAccess(): void\l- setRemoteDuration(): void \{final\}\l- startRemoteDuration(): void \{final\}\l}"];    
     19 [label="{TestFailure|# fFailedTest: Test\l# fFailedTestMethod: String\l# fThrownException: Error\l|+ exceptionMessage(): String\l+ failedFeature(): String\l+ failedMethod(): String\l+ failedTest(): Test\l+ isFailure(): Boolean\l+ thrownException(): Error\l+ toString(): String\l}"];    
     14 [label="{AsyncOperation|- callback: Function\l- duration: Number\l- failureHandler: Function\l- testCase: TestCase\l- timeout: Timer\l|+ getCallback(): Function\l- onTimeoutComplete(p0: TimerEvent): void\l}"];    
@@ -52,27 +73,6 @@ digraph G {
     2 [label="{Assert||$ + assertEquals(): void \{final\}\l$ + assertEqualsArrays(): void \{final\}\l$ + assertEqualsArraysIgnoringOrder(): void \{final\}\l$ + assertEqualsFloat(): void \{final\}\l$ + assertFalse(): void \{final\}\l$ + assertNotNull(): void \{final\}\l$ + assertNotSame(): void \{final\}\l$ + assertNull(): void \{final\}\l$ + assertSame(): void \{final\}\l$ + assertThrows(p0: Class, p1: Function): void \{final\}\l$ + assertTrue(): void \{final\}\l$ + fail(p0: String): void \{final\}\l$ - failNotEquals(p0: String, p1: Object, p2: Object): void \{final\}\l$ - failNotSame(p0: String, p1: Object, p2: Object): void \{final\}\l$ - failSame(p0: String): void \{final\}\l$ - format(p0: String, p1: Object, p2: Object): String \{final\}\l}"];    
     1 [label="{\<\<interface\>\>\nTest|countTestCases(): int\lgetContext(): DisplayObjectContainer\lgetCurrentMethod(): String\lgetIsComplete(): Boolean\lgetName(): String\lgetTestMethods(): Array\lrun(): void\lrunBare(): void\lsetContext(p0: DisplayObjectContainer): void\lsetResult(p0: TestListener): void\ltoString(): String\l}"];    
     label="asunit.framework";    
-  }  
-  subgraph clusterP5{  
-    20 [label="{TestTime|+ duration: int \{read-only\}\l- _duration: int\l- _name: String\l|$ + create(p0: Test, p1: int): TestTime \{final\}\l+ toString(): String\l}"];    
-    9 [label="{ResultPrinter|# startTime: Number\l# testTimes: Array\l+ height: void \{redefines height\} \{write-only\}\l+ width: void \{redefines width\} \{write-only\}\l- backgroundColor: uint = 3355443\l- bar: SuccessBar\l- barHeight: Number = 3\l- fColumn: int = 0\l- gutter: uint = 0\l- showTrace: Boolean\l- textArea: TextField\l|# elapsedTimeAsString(p0: Number): String\l# printDefectHeader(p0: TestFailure, p1: int): void\l# printDefectTrace(p0: TestFailure): void\l# printDefects(p0: Object, p1: int, p2: String): void\l# printErrors(p0: TestResult): void\l# printFailures(p0: TestResult): void\l# printFooter(p0: TestResult): void\l# printHeader(p0: Number): void\l# printTimeSummary(): void\l+ addError(p0: Test, p1: Error): void\l+ addFailure(p0: Test, p1: AssertionFailedError): void\l+ endTest(p0: Test): void\l+ endTestMethod(p0: Test, p1: String): void\l+ onFormatTimeout(p0: TextFormat, p1: uint, p2: uint): void\l+ print(): void\l+ printDefect(p0: TestFailure, p1: int): void\l+ printResult(p0: TestResult, p1: Number): void\l+ println(): void\l+ run(p0: Test): void\l+ setShowTrace(p0: Boolean): void\l+ startTest(p0: Test): void\l+ startTestMethod(p0: Test, p1: String): void\l- configureAssets(): void\l}"];    
-    0 [label="{TestRunner|# fPrinter: ResultPrinter\l# result: TestResult\l# startTime: Number\l$ + EXCEPTION_EXIT: int = 2 \{read-only\}\l$ + FAILURE_EXIT: int = 1 \{read-only\}\l$ + SHOW_TRACE: Boolean = true \{read-only\}\l$ + SUCCESS_EXIT: int = 0 \{read-only\}\l|# addedHandler(p0: Event): void\l+ doRun(p0: Test, p1: Boolean = false): TestResult\l+ getPrinter(): ResultPrinter\l+ setPrinter(p0: ResultPrinter): void\l+ start(p0: Class, p1: String = null, p2: Boolean = false): TestResult\l- configureListeners(): void\l- resizeHandler(p0: Event): void\l- testCompleteHandler(p0: Event): void\l}"];    
-    label="asunit.textui";    
-  }  
-  subgraph clusterP6{  
-    32 [label="{AbstractError||}"];    
-    23 [label="{InstanceNotFoundError||}"];    
-    11 [label="{AssertionFailedError||}"];    
-    label="asunit.errors";    
-  }  
-  subgraph clusterP7{  
-    18 [label="{Version|$ - version: String = \"3.0\"\l|$ + id(): String \{final\}\l}"];    
-    17 [label="{BaseTestRunner||$ + getFilteredTrace(p0: String): String \{final\}\l}"];    
-    label="asunit.runner";    
-  }  
-  subgraph clusterP8{  
-    5 [label="{TestRun||}"];    
-    label="TopLevel";    
   }  
   edge[style="solid"];  
   3 -> 2;  

@@ -1,4 +1,4 @@
-package {
+﻿package {
 	import asunit.textui.TestRunner;
     public class TestRun extends TestRunner {
 
