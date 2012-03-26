@@ -1,4 +1,4 @@
-package tests.core {
+﻿package tests.core {
 	import asunit.framework.TestCase;
 	import com.fastframework.navigation.NavStackRequest;
 	import com.fastframework.navigation.Navigation;
@@ -30,7 +30,7 @@ package tests.core {
 		public function testEventChange():void{
 			asyncEventChange = addAsync(postEventChange);
 			
-			instance.once(NavigationEvent.CHANGE, this, asyncEventChange);
+			instance.once(NavigationEvent.CHANGE, asyncEventChange);
 			instance.changeSection(navKey,targetContainer);
 		}
 
@@ -44,7 +44,7 @@ package tests.core {
 		public function testNavStackRequest():void{
 			navKeyToEvaluate = '1_1';
 			asyncEventChange = addAsync(postNavStackRequest);
-			instance.when(NavigationEvent.CHANGE,this,asyncEventChange);
+			instance.when(NavigationEvent.CHANGE, asyncEventChange);
 			instance.changeSections([
 						new NavStackRequest(navKeyToEvaluate),
 						new NavStackRequest(navKey)

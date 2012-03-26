@@ -1,0 +1,33 @@
+digraph G {
+  fontname="Bitstream Vera Sans Mono";  
+  fontsize=8;  
+  ranksep=2;  
+  ratio=auto;  
+  graph[  
+    rankdir= "TB",    
+    splines= true,    
+    overlap= false    
+  ];  
+  node[  
+    fontname="Bitstream Vera Sans Mono",    
+    fontsize=8,    
+    shape="record"    
+  ];  
+  edge[  
+    fontname="Bitstream Vera Sans Mono",    
+    fontsize=8,    
+    arrowhead="empty"    
+  ];  
+  subgraph clusterP0{  
+    2 [label="{FASTEventDispatcher|- dict: Dictionary\l|+ once(: String, : Function): null\l+ when(: String, : Function): null\l- runonce(: Event): void\l}"];    
+    1 [label="{\<\<interface\>\>\nIFASTEventDispatcher|once(: String, : Function): null\lwhen(: String, : Function): null\l}"];    
+    label="com.fastframework.core";    
+  }  
+  subgraph clusterP1{  
+    0 [label="{MainEventDispatcher|- ed2: FASTEventDispatcher\l- ed: FASTEventDispatcher\l- evt: Event\l- n: int = 0\l|- clean(: KeyboardEvent): void\l- click(: Event): void\l- dispatch(): void\l- testOnce(: Event): void\l}"];    
+    label="TopLevel";    
+  }  
+  edge[style="solid"];  
+  edge[style="dashed"];  
+  label="Powered by Apparat - http://apparat.googlecode.com/";  
+}

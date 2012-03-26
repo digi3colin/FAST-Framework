@@ -1,4 +1,4 @@
-package tests.core {
+﻿package tests.core {
 	import asunit.framework.TestCase;
 
 	import com.fastframework.core.FASTEventDispatcher;
@@ -49,7 +49,7 @@ package tests.core {
 
 			//test when can listen the event until remove eventlistener
 
-			instance.when(Event.CHANGE, this,postWhenChange);
+			instance.when(Event.CHANGE, postWhenChange);
 			instance.dispatchEvent(new Event(Event.CHANGE));
 			instance.dispatchEvent(new Event(Event.CHANGE));
 			instance.dispatchEvent(new Event(Event.CHANGE));
@@ -68,7 +68,7 @@ package tests.core {
 			assertFalse(instance.hasEventListener(Event.CHANGE));
 			dispatchCount = 0;
 
-			instance.once(Event.CHANGE,this, postOnce);
+			instance.once(Event.CHANGE, postOnce);
 			instance.dispatchEvent(new Event(Event.CHANGE));
 			instance.dispatchEvent(new Event(Event.CHANGE));
 
