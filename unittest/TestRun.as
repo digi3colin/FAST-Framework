@@ -13,6 +13,7 @@
 }
 import asunit.framework.TestSuite;
 
+import tests.core.ButtonClipTest;
 import tests.core.FASTEventDispatcherTest;
 import tests.core.NavigationTest;
 
@@ -20,5 +21,6 @@ class AllTests extends TestSuite{
     public function AllTests() {
         addTest(new NavigationTest());
 		addTest(new FASTEventDispatcherTest());
+		addTest(new ButtonClipTest());
     }
 }
