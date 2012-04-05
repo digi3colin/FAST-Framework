@@ -53,7 +53,7 @@
 			instance.dispatchEvent(new Event(Event.CHANGE));
 			instance.dispatchEvent(new Event(Event.CHANGE));
 			instance.dispatchEvent(new Event(Event.CHANGE));
-			instance.dispatchEvent(new Event(Event.CLEAR));//this should be no respond
+			instance.dispatchEvent(new Event(Event.CLOSE));//this should be no respond
 			instance.dispatchEvent(new Event(Event.CHANGE));
 			instance.removeEventListener(Event.CHANGE, postWhenChange);
 			instance.dispatchEvent(new Event(Event.CHANGE));
